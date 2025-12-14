@@ -1,0 +1,16 @@
+
+name: CD Pipeline - Deploy
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+
+  deploy-infrastructure:
+    name: Deploy da Infraestrutura com Terraform
+    needs: publish-image
+    uses: ./.github/workflows/reusable-apply-terraform.yml
+    secrets: inherit
+

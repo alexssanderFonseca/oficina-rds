@@ -1,0 +1,24 @@
+
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+
+jobs:
+  validate-terraform:
+    name: Validação Terraform
+    uses: ./.github/workflows/reusable-plan-terraform.yml
+    secrets: inherit
+
+  create-pull-request:
+    name: Criar Pull Request
+    needs: [validate-docker, validate-terraform]
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/reusable-pr.yml
+    secrets: inherit
+    with:
+      branch-name: ${{ github.ref_name }}
