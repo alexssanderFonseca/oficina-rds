@@ -1,0 +1,43 @@
+name: Pull Request Phase
+
+on:
+  workflow_call:
+    inputs:
+      branch-name:
+        required: true
+        type: string
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Necessária para a CLI interagir com o repo
+      pull-requests: write # Necessária para criar o PR
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+        # O checkout é importante para ter o contexto do repositório
+
+      - name: Criar Pull Request com a CLI do GitHub
+        continue-on-error: true
+        run: |
+          gh pr create \
+            --base "main" \
+            --head "${{ inputs.branch-name }}" \
+            --title "PR automático: build e testes da branch ${{ inputs.branch-name }}" \
+            --body-file - <<-EOF
+            ## 🤖 Pull Request Automático
+          
+            Este PR foi criado automaticamente após validações bem-sucedidas:
+          
+            ✅ Terraform plan executado com sucesso
+
+          
+            **Branch:** ${{ inputs.branch-name }}
+            **Commit:** ${{ github.sha }}
+          
+            Por favor, revise as mudanças antes de fazer o merge.
+            EOF
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
