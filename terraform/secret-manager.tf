@@ -3,7 +3,7 @@
 resource "aws_secretsmanager_secret" "rds_credentials" {
   name        = "rds-academico-credentials"
   description = "Credenciais do banco RDS academico"
-  
+
   recovery_window_in_days = 0 # Permite deletar imediatamente (útil para testes)
 
   tags = {

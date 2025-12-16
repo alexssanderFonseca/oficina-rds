@@ -2,7 +2,7 @@ resource "aws_security_group" "rds_sg" {
   name        = "rds-academico-sg"
   description = "Security group para RDS academico"
   vpc_id      = var.vpc_id
-  
+
   # Permite conexões PostgreSQL
   ingress {
     from_port   = 5432 # Use 3306 para MySQL, 1433 para SQL Server
