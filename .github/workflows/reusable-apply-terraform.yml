@@ -8,7 +8,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./infra/terraform
+        working-directory: ./terraform
 
     runs-on: ubuntu-latest
     steps:
