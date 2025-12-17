@@ -1,9 +1,3 @@
-
-data "aws_vpc" "selected" {
-  cidr_block = "10.0.0.0/16"
-}
-
-
 resource "aws_security_group" "rds_sg" {
   name        = "rds-academico-sg"
   description = "Security group para RDS academico"
