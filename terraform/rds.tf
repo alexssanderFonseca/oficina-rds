@@ -10,7 +10,7 @@ resource "random_password" "rds_password" {
 
 resource "aws_db_subnet_group" "rds_subnet_group" {
   name       = "rds-academico-subnet-group"
-  subnet_ids = data.aws_vpc.selected.id
+  subnet_ids = local.private_subnets
   tags = {
     Name        = "RDS Academico Subnet Group"
     Environment = "academico"
