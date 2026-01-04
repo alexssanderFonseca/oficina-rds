@@ -54,30 +54,3 @@ resource "aws_db_instance" "academico_rds" {
     ManagedBy   = "Terraform"
   }
 }
-
-resource "null_resource" "db_init" {
-  depends_on = [aws_db_instance.academico_rds]
-
-  provisioner "local-exec" {
-    command = <<-EOT
-      echo "Aguardando RDS ficar disponível..."
-      sleep 90
-      
-      echo "Executando script de inicialização..."
-      PGPASSWORD='${random_password.rds_password.result}' psql \
-        -h ${aws_db_instance.academico_rds.address} \
-        -U ${aws_db_instance.academico_rds.username} \
-        -d ${aws_db_instance.academico_rds.db_name} \
-        -p 5432 \
-        -f ${path.module}/scripts/init.sql
-      
-      echo "Script executado com sucesso!"
-    EOT
-  }
-
-  # Força a re-execução se o RDS for recriado
-  triggers = {
-    db_instance_id = aws_db_instance.academico_rds.id
-  }
-}
-

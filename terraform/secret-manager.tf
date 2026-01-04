@@ -1,28 +1,22 @@
 
-# Secret Manager - Armazenar credenciais do RDS
-resource "aws_secretsmanager_secret" "rds_credentials" {
-  name        = "rds-academico-credentials-1"
-  description = "Credenciais do banco RDS academico"
-
-  recovery_window_in_days = 0 # Permite deletar imediatamente (útil para testes)
-
-  tags = {
-    Name        = "RDS-Academico-Credentials"
-    Environment = "academico"
-  }
-}
-
 # Versão do Secret com as credenciais
 resource "aws_secretsmanager_secret_version" "rds_credentials" {
-  secret_id = aws_secretsmanager_secret.rds_credentials.id
+  secret_id = "arn:aws:secretsmanager:us-east-1:305448253775:secret:secrets-XmZ0Fb"
   secret_string = jsonencode({
-    username = "admin"
+    username = aws_db_instance.academico_rds.username
     password = random_password.rds_password.result
-    engine   = "postgres"
+    engine   = aws_db_instance.academico_rds.engine
     host     = aws_db_instance.academico_rds.address
     port     = aws_db_instance.academico_rds.port
-    dbname   = "academicodb"
+    dbname   = aws_db_instance.academico_rds.db_name
   })
+
+  lifecycle {
+    ignore_changes = [
+      secret_string,
+    ]
+  }
+
 
   depends_on = [aws_db_instance.academico_rds]
 }
