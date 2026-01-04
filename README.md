@@ -102,3 +102,4 @@ O projeto está configurado com pipelines de Integração e Entrega Contínua:
 | `secret_name`     | Nome do segredo no AWS Secrets Manager.                                        |
 | `database_name`   | Nome do banco de dados (`oficinadb`).                                         |
 | `connection_info` | Instruções e comandos úteis para obter as credenciais e conectar ao banco de dados. |
+
