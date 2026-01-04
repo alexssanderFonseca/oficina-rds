@@ -15,12 +15,12 @@ output "rds_port" {
 
 output "secret_arn" {
   description = "ARN do Secret Manager com as credenciais"
-  value       = aws_secretsmanager_secret.rds_credentials.arn
+  value       = data.aws_secretsmanager_secret.rds_credentials.arn
 }
 
 output "secret_name" {
   description = "Nome do Secret no Secrets Manager"
-  value       = aws_secretsmanager_secret.rds_credentials.name
+  value       = data.aws_secretsmanager_secret.rds_credentials.name
 }
 
 output "database_name" {
@@ -36,10 +36,10 @@ output "connection_info" {
     📋 INFORMAÇÕES DE CONEXÃO:
     
     1. Recuperar credenciais do Secrets Manager:
-       aws secretsmanager get-secret-value --secret-id ${aws_secretsmanager_secret.rds_credentials.name} --region us-east-1
+       aws secretsmanager get-secret-value --secret-id ${data.aws_secretsmanager_secret.rds_credentials.name} --region us-east-1
     
     2. Ou via AWS CLI com jq:
-       aws secretsmanager get-secret-value --secret-id ${aws_secretsmanager_secret.rds_credentials.name} --query SecretString --output text | jq .
+       aws secretsmanager get-secret-value --secret-id ${data.aws_secretsmanager_secret.rds_credentials.name} --query SecretString --output text | jq .
     
     3. Endpoint: ${aws_db_instance.academico_rds.endpoint}
     
